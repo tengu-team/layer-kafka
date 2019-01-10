@@ -1,0 +1,26 @@
+name: kafka
+summary: Apache Kafka
+maintainer: Sander Borny <sander.borny@ugent.be>
+description: |
+  Apache kafka
+tags:
+  # Replace "misc" with one or more whitelisted tags from this list:
+  # https://jujucharms.com/docs/stable/authors-charm-metadata
+  - apache
+  - big_data
+subordinate: false
+provides:
+  client:
+    interface: kafka
+requires:
+  zookeeper:
+    interface: zookeeper
+peers:
+  broker:
+    interface: kafka-peers
+resources:
+  apache-kafka:
+    description: A tgz archive of Apache Kafka.
+    type: file
+    filename: kafka.tgz
+series: ['xenial', 'bionic']

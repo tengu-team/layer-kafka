@@ -1,0 +1,11 @@
+groups:
+  - 'kafka'
+users:
+  kafka:
+    groups: ['kafka']
+dirs:
+  kafka-opt:
+    path: '/opt/kafka-logs'
+    perms: 0775
+    owner: kafka
+    group: kafka

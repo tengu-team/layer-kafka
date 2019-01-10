@@ -1,0 +1,19 @@
+options:
+  broker-count:
+    type: int
+    default: 3
+    description: |
+      Number of Kafka broker units to wait for before attempting to 
+      bootstrap the Kafka cluster. For production clusters the 
+      default value of 3 broker units is normally a good choise.
+      .
+      For test and development environments you can enable single-unit
+      deployment by setting this to 1.
+      .
+      NOTE: To establish quorum a odd number of brokers is required.
+      .
+      NOTE: Starting with a broker-count of 1 will cause internal topics 
+      to have a replication factor of 1. For production clusters do not
+      scale the single unit but recreate the cluster with the correct
+      broker-count.
+

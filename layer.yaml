@@ -1,0 +1,5 @@
+includes: ['layer:basic',
+           'layer:status',
+           'interface:kafka',
+           'interface:kafka-peers',
+           'interface:zookeeper']
