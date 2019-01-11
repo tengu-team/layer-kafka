@@ -9,8 +9,3 @@ dirs:
     perms: 0775
     owner: kafka
     group: kafka
-  kafka-log:
-    path: '/var/log/kafka'
-    perms: 0775
-    owner: kafka
-    group: kafka

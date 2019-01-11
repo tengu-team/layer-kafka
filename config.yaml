@@ -6,14 +6,22 @@ options:
       Number of Kafka broker units to wait for before attempting to 
       bootstrap the Kafka cluster. For production clusters the 
       default value of 3 broker units is normally a good choise.
-      .
+      
       For test and development environments you can enable single-unit
       deployment by setting this to 1.
-      .
+      
       NOTE: To establish quorum a odd number of brokers is required.
-      .
+      
       NOTE: Starting with a broker-count of 1 will cause internal topics 
       to have a replication factor of 1. For production clusters do not
       scale the single unit but recreate the cluster with the correct
       broker-count.
+  enable-jmx:
+    type: boolean
+    default: false
+    description: |
+      If true, remote JMX will be enabled for Kafka. The JMX port is
+      fixed to 9999.
+
+      NOTE: Changing this config after initial setup will have no effect.
 

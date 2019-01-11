@@ -1,5 +1,6 @@
 import os
 import glob
+import shutil
 import tarfile
 
 from path import Path
@@ -70,7 +71,10 @@ def install_kafka():
         os.symlink(kafka_dir, '/usr/lib/kafka')
 
     if not os.path.exists('/usr/lib/kafka/logs'):
+        os.makedirs('/usr/lib/kafka/logs')
         os.symlink('/usr/lib/kafka/logs', '/var/log/kafka')
+        os.chmod('/var/log/kafka', 0o775)
+        shutil.chown('/var/log/kafka', user='kafka', group='kafka')
 
     # Create server.properties
     status.maintenance('Creating Kafka config')
@@ -84,7 +88,7 @@ def install_kafka():
            context={
                'broker_count': min_brokers,
                'transaction_min_isr': 1 if min_brokers == 1 else min_brokers-1,
-               'zookeeper_brokers': ",".join(zoo_brokers),
+               'zookeeper_brokers': ",".join(zoo_brokers),               
            })
 
     # Create systemd service
@@ -92,6 +96,7 @@ def install_kafka():
            target='/etc/systemd/system/kafka.service',
            context={
                  'java_home': java_home(),
+                 'jmx': 1 if config().get('enable-jmx') else 0,
            })
 
     # Start systemd service
@@ -106,20 +111,16 @@ def install_kafka():
         return
 
     open_port(9092)
+    if config().get('enable-jmx'):
+        open_port(9999)
     status.active('Ready')
     set_flag('kafka.installed')
 
 
 def install_java():
-    """
-    Possibly install java.
-    """
     java_package = "openjdk-8-jdk-headless"
-
     fetch.apt_install(java_package)
-
     java_home_ = java_home()
-
     utils.re_edit_in_place('/etc/environment', {
       r'#? *JAVA_HOME *=.*': 'JAVA_HOME={}'.format(java_home_),
     }, append_non_matches=True)

@@ -8,6 +8,9 @@ After=network.target remote-fs.target
 Type=simple
 User=kafka
 Group=kafka
+{% if jmx -%}
+Environment=JMX_PORT=9999
+{%- endif %}
 Environment=JAVA_HOME={{java_home}}
 ExecStart=/usr/lib/kafka/bin/kafka-server-start.sh /usr/lib/kafka/config/server.properties
 ExecStop=/usr/lib/kafka/bin/kafka-server-stop.sh
