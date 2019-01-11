@@ -3,3 +3,4 @@ includes: ['layer:basic',
            'interface:kafka',
            'interface:kafka-peers',
            'interface:zookeeper']
+repo: git@github.com/tengu-team/layer-kafka.git

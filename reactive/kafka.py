@@ -69,6 +69,9 @@ def install_kafka():
         kafka_dir = glob.glob('/usr/lib/kafka_*')[0]
         os.symlink(kafka_dir, '/usr/lib/kafka')
 
+    if not os.path.exists('/usr/lib/kafka/logs'):
+        os.symlink('/usr/lib/kafka/logs', '/var/log/kafka')
+
     # Create server.properties
     status.maintenance('Creating Kafka config')
     zookeepers = endpoint_from_flag('zookeeper.ready')
