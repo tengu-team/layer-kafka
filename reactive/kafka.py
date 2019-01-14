@@ -117,6 +117,15 @@ def install_kafka():
     set_flag('kafka.installed')
 
 
+@when('client.joined',
+      'zookeeper.ready')
+def serve_client():
+    client = endpoint_from_flag('client.joined')
+    zookeeper = endpoint_from_flag('zookeeper.ready')
+    client.send_port(9092)
+    client.send_zookeepers(zookeeper.zookeepers())
+
+
 def install_java():
     java_package = "openjdk-8-jdk-headless"
     fetch.apt_install(java_package)
